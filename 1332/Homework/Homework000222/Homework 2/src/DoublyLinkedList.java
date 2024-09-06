@@ -1,14 +1,14 @@
 /**
  * Your implementation of a non-circular DoublyLinkedList with a tail pointer.
  *
- * @author YOUR NAME HERE
+ * @author Noor Hasan
  * @version 1.0
- * @userid YOUR USER ID HERE (i.e. gburdell3)
- * @GTID YOUR GT ID HERE (i.e. 900000000)
+ * @userid nhasan36
+ * @GTID 903791273
  *
- * Collaborators: LIST ALL COLLABORATORS YOU WORKED WITH HERE
+ * Collaborators: None
  *
- * Resources: LIST ALL NON-COURSE RESOURCES YOU CONSULTED HERE
+ * Resources: None
  */
 public class DoublyLinkedList<T> {
 
@@ -38,29 +38,29 @@ public class DoublyLinkedList<T> {
             throw new IllegalArgumentException("Data cannot be null!");
         }
         if (index == 0) {
-            addToFront(T data);
+            addToFront(data);
+            return;
         }
         if (index == size) {
-            addToBack(T data);
+            addToBack(data);
+            return;
         }
+        DoublyLinkedListNode<T> curr;
         if (index < size / 2) {
-            DoublyLinkedListNode<T> curr = head;
-            for (int j = 0; j < index - 1; j++) {
+            curr = head;
+            for (int j = 0; j < index; j++) {
                 curr = curr.getNext();
             }
-            DoublyLinkedListNode<T> x = new DoublyLinkedListNode(data, curr, curr.getNext());
-            curr.setNext(x);
-            x.getNext().setPrevious(x);
-        }
-        else {
-            DoublyLinkedListNode<T> curr = tail;
-            for (int j = size; j >= index; j--) {
+        } else {
+            curr = tail;
+            for (int j = size - 1; j > index; j--) {
                 curr = curr.getPrevious();
             }
-            DoublyLinkedListNode<T> x = new DoublyLinkedListNode(data, curr.getPrevious(), curr);
-            curr.setPrevious(x);
-            x.getPrevious().setNext(x);
         }
+        DoublyLinkedListNode<T> x = new DoublyLinkedListNode<>(data, curr.getPrevious(), curr);
+        curr.getPrevious().setNext(x);
+        curr.setPrevious(x);
+        size++;
     }
 
     /**
@@ -76,11 +76,10 @@ public class DoublyLinkedList<T> {
             throw new IllegalArgumentException("Data cannot be null!");
         }
         if (size == 0) {
-            head = new DoublyLinkedListNode(data, null, null);
+            head = new DoublyLinkedListNode<>(data, null, null);
             tail = head;
-        }
-        else {
-            DoublyLinkedListNode<T> x = new DoublyLinkedListNode(data, null, head);
+        } else {
+            DoublyLinkedListNode<T> x = new DoublyLinkedListNode<>(data, null, head);
             head.setPrevious(x);
             head = x;
         }
@@ -100,15 +99,14 @@ public class DoublyLinkedList<T> {
             throw new IllegalArgumentException("Data cannot be null!");
         }
         if (size == 0) {
-            head = new DoublyLinkedListNode(data, null, null);
+            head = new DoublyLinkedListNode<>(data, null, null);
             tail = head;
-        }
-        else {
-            DoublyLinkedListNode<T> x = new DoublyLinkedListNode(data, tail, null);
-            head.setNext(x);
+        } else {
+            DoublyLinkedListNode<T> x = new DoublyLinkedListNode<>(data, tail, null);
+            tail.setNext(x);
             tail = x;
-            size++;
         }
+        size++;
     }
 
     /**
@@ -123,32 +121,32 @@ public class DoublyLinkedList<T> {
      * @throws java.lang.IndexOutOfBoundsException if index < 0 or index >= size
      */
     public T removeAtIndex(int index) {
-        if (index > size || index < 0) {
+        if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index is out of bounds!");
         }
         if (index == 0) {
-            removeFromFront();
+            return removeFromFront();
         }
-        if (index == size) {
-            removeFromBack();
+        if (index == size - 1) {
+            return removeFromBack();
         }
-        if (index < size/2) {
-            DoublyLinkedListNode<T> curr = head;
-            if (int j = 0; j < index; j++) {
+        DoublyLinkedListNode<T> curr;
+        if (index < size / 2) {
+            curr = head;
+            for (int j = 0; j < index; j++) {
                 curr = curr.getNext();
             }
-
-        }
-        else (index > size/2) {
-            DoublyLinkedListNode<T> curr = tail;
-            if (int j = 0; j > index; j--) {
+        } else {
+            curr = tail;
+            for (int j = size - 1; j > index; j--) {
                 curr = curr.getPrevious();
             }
-
         }
-
+        curr.getPrevious().setNext(curr.getNext());
+        curr.getNext().setPrevious(curr.getPrevious());
+        size--;
+        return curr.getData();
     }
-
     /**
      * Removes and returns the first element of the list.
      *
@@ -158,9 +156,19 @@ public class DoublyLinkedList<T> {
      * @throws java.util.NoSuchElementException if the list is empty
      */
     public T removeFromFront() {
-
+        if (size == 0) {
+            throw new java.util.NoSuchElementException("The list is empty.");
+        }
+        DoublyLinkedListNode<T> curr = head;
+        head = head.getNext();
+        if (head == null) {
+            tail = null;
+        } else {
+            head.setPrevious(null);
+        }
+        size--;
+        return curr.getData();
     }
-
     /**
      * Removes and returns the last element of the list.
      *
@@ -170,9 +178,19 @@ public class DoublyLinkedList<T> {
      * @throws java.util.NoSuchElementException if the list is empty
      */
     public T removeFromBack() {
-
+        if (size == 0) {
+            throw new java.util.NoSuchElementException("The list is empty.");
+        }
+        DoublyLinkedListNode<T> curr = tail;
+        tail = tail.getPrevious();
+        if (tail == null) {
+            head = null;
+        } else {
+            tail.setNext(null);
+        }
+        size--;
+        return curr.getData();
     }
-
     /**
      * Returns the element at the specified index. Don't forget to consider
      * whether traversing the list from the head or tail is more efficient!
@@ -184,9 +202,29 @@ public class DoublyLinkedList<T> {
      * @throws java.lang.IndexOutOfBoundsException if index < 0 or index >= size
      */
     public T get(int index) {
-
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Index is out of bounds!");
+        }
+        if (index == 0) {
+            return head.getData();
+        }
+        if (index == size - 1) {
+            return tail.getData();
+        }
+        DoublyLinkedListNode<T> curr;
+        if (index < size / 2) {
+            curr = head;
+            for (int j = 0; j < index; j++) {
+                curr = curr.getNext();
+            }
+        } else {
+            curr = tail;
+            for (int j = size - 1; j > index; j--) {
+                curr = curr.getPrevious();
+            }
+        }
+        return curr.getData();
     }
-
     /**
      * Returns whether or not the list is empty.
      *
@@ -195,7 +233,10 @@ public class DoublyLinkedList<T> {
      * @return true if empty, false otherwise
      */
     public boolean isEmpty() {
-
+        if (size == 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -206,7 +247,9 @@ public class DoublyLinkedList<T> {
      * Must be O(1).
      */
     public void clear() {
-
+        head = null;
+        tail = null;
+        size = 0;
     }
 
     /**
@@ -223,9 +266,36 @@ public class DoublyLinkedList<T> {
      * @throws java.util.NoSuchElementException   if data is not found
      */
     public T removeLastOccurrence(T data) {
-
+        if (data == null) {
+            throw new IllegalArgumentException("Data cannot be null.");
+        }
+        DoublyLinkedListNode<T> curr = tail;
+        while (curr != null) {
+            if (curr.getData().equals(data)) {
+                if (curr == head && curr == tail) {
+                    head = null;
+                    tail = null;
+                } else if (curr == head) {
+                    head = head.getNext();
+                    if (head != null) {
+                        head.setPrevious(null);
+                    }
+                } else if (curr == tail) {
+                    tail = tail.getPrevious();
+                    if (tail != null) {
+                        tail.setNext(null);
+                    }
+                } else {
+                    curr.getPrevious().setNext(curr.getNext());
+                    curr.getNext().setPrevious(curr.getPrevious());
+                }
+                size--;
+                return curr.getData(); // Return the removed data
+            }
+            curr = curr.getPrevious(); // Move to the previous node
+        }
+        throw new java.util.NoSuchElementException("Data not found in the list.");
     }
-
     /**
      * Returns an array representation of the linked list. If the list is
      * size 0, return an empty array.
@@ -236,7 +306,16 @@ public class DoublyLinkedList<T> {
      * list in the same order
      */
     public Object[] toArray() {
-
+        if (size == 0) {
+            return new Object[0];
+        }
+        Object[] array = new Object[size];
+        DoublyLinkedListNode<T> current = head;
+        for (int j = 0; j < size; j++) {
+            array[j] = current.getData();
+            current = current.getNext();
+        }
+        return array;
     }
 
     /**

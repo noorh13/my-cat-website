@@ -1,0 +1,34 @@
+Last login: Wed Sep  4 17:15:50 on ttys000
+noorhasan@lawn-143-215-60-170 ~ % ssh nhasan36@login-ice.pace.gatech.edu
+The authenticity of host 'login-ice.pace.gatech.edu (128.61.254.122)' can't be established.
+ED25519 key fingerprint is SHA256:K++YWW1za8VOLncwifgbtAaecFkhlogiT/4Gz7UhYnM.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'login-ice.pace.gatech.edu' (ED25519) to the list of known hosts.
+nhasan36@login-ice.pace.gatech.edu's password: 
+Terms of Use
+
+This computer system is the property of Georgia Institute of
+Technology.  Any user of this system must comply with all Institute
+and Board of Regents policies, including the Acceptable Use
+Policy (AUP), Data Privacy Policy (DPP) and Cyber Security
+Policy (CSP), see http://b.gatech.edu/it-policies.  Users should
+have no expectation of privacy, as any and all files on this system
+may be intercepted, monitored, copied, inspected, and/or disclosed to
+authorized personnel in order to meet institute obligations.
+
+By using this system, I acknowledge and consent to these terms.
+
+#######################################
+# Welcome to GT Instructional Cluster #
+#######################################
+
+If you require assistance with this system, please contact your
+course instructor or teaching assistant (TA).
+
+[nhasan36@login-ice-2 ~]$ cd /storage/ice-shared/vip-vyf/orthography_team/
+[nhasan36@login-ice-2 orthography_team]$ ls
+EEBO-TCP-Collections-Navigations  scripts  slurm
+[nhasan36@login-ice-2 orthography_team]$ ls
+EEBO-TCP-Collections-Navigations  raw_text  scripts  slurm  text_info
+[nhasan36@login-ice-2 orthography_team]$ 
